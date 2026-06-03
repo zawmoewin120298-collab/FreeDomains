@@ -80,7 +80,7 @@ export function Footer() {
                 {/* Bottom */}
                 <div className="pt-4 border-t border-[#333] flex flex-col md:flex-row justify-between items-center gap-2">
                     <p className="text-xs text-[#E5E3DF] text-center md:text-left">
-                        © 2025 Indevs. Open source and proud of it.
+                        © 2026 Stackryze domains. Open source and proud of it.
                     </p>
                     <p className="text-xs text-[#E5E3DF] text-center md:text-right">
                         A project by <a href="https://stackryze.com" target="_blank" rel="noreferrer" className="font-bold text-white hover:text-[#FF6B35] transition-colors">Stackryze</a> (Registered MSME, India)

@@ -33,24 +33,22 @@ export function FeatureCards() {
   ];
 
   return (
-    <section className="w-full pt-8 md:pt-16 pb-12 md:pb-24 bg-[#FFF8F0] relative">
-      <div className="w-full px-6 md:px-12 lg:px-16 mb-16">
+    <section className="w-full py-8 md:py-12 bg-[#FAFAFA] relative">
+      <div className="w-full px-6 md:px-12 lg:px-16 mb-16 max-w-[1600px] mx-auto">
 
-        <div className="mb-16 space-y-6">
-          <h2 className="text-3xl md:text-5xl font-bold text-[#1A1A1A]">
-            The price of admission<br />
-            <span className="text-[#FF6B35]">is zero.</span>
+        <div className="mb-20 space-y-6 text-center max-w-3xl mx-auto">
+          <h2 className="text-3xl md:text-5xl font-extrabold text-slate-900 tracking-tight">
+            The price of admission <span className="text-transparent bg-clip-text bg-gradient-to-r from-orange-500 to-amber-500">is zero.</span>
           </h2>
 
-          <div className="max-w-3xl space-y-4 text-base md:text-lg text-[#6B6B6B] leading-relaxed">
+          <div className="space-y-4 text-base md:text-lg text-slate-500 leading-relaxed font-medium">
             <p>
               For too long, gatekeepers have put a price tag on your identity. We believe your first
               idea, your tenth side project, and your portfolio deserve a home, not a monthly bill.
             </p>
             <p>
-              <span className="font-bold text-[#1A1A1A]">Indevs</span> is our contribution to the chaotic, beautiful mess that is the open web.
-              Claim your <span className="font-bold text-[#1A1A1A]">*.indevs.in</span> domain. Point it at Vercel, Netlify, or that
-              Raspberry Pi in your closet. No strings attached. Just pure DNS freedom.
+              <span className="font-semibold text-slate-900">Stackryze Domains</span> is our contribution to the chaotic, beautiful mess that is the open web.
+              Claim your domain, point it anywhere, and deploy. No strings attached.
             </p>
           </div>
         </div>
@@ -60,31 +58,29 @@ export function FeatureCards() {
             <div
               key={idx}
               className={`
-                bg-white border-4 border-[#1A1A1A] rounded-xl p-6 h-full
-                hover:translate-x-1 hover:translate-y-1 hover:shadow-none
-                transition-all duration-150 flex flex-col justify-between
+                bg-white border border-slate-200/60 rounded-2xl p-8 h-full
+                hover:shadow-xl hover:shadow-slate-200/40 hover:-translate-y-1
+                transition-all duration-500 flex flex-col justify-between group
+                ring-1 ring-black/[0.02]
               `}
-              style={{
-                boxShadow: `8px 8px 0px 0px ${feature.bg}`
-              }}
             >
               <div>
                 <div className="flex items-start justify-between mb-8">
-                  <span className="text-4xl lg:text-5xl font-bold text-[#E5E3DF]">
+                  <span className="text-4xl lg:text-5xl font-black text-slate-100 transition-colors duration-500 group-hover:text-slate-200">
                     {feature.number}
                   </span>
                   <div
-                    className="w-14 h-14 flex items-center justify-center border-2 border-[#1A1A1A] rounded-lg"
-                    style={{ backgroundColor: feature.bg }}
+                    className="w-14 h-14 flex items-center justify-center rounded-xl ring-1 ring-black/5 shadow-sm transition-transform duration-500 group-hover:scale-110"
+                    style={{ backgroundColor: `${feature.bg}15`, color: feature.bg }}
                   >
-                    <feature.icon className="w-7 h-7 text-[#1A1A1A]" />
+                    <feature.icon className="w-7 h-7" strokeWidth={2} />
                   </div>
                 </div>
 
-                <h3 className="text-2xl lg:text-3xl font-bold text-[#1A1A1A] mb-4">
+                <h3 className="text-xl lg:text-2xl font-bold text-slate-900 mb-4 tracking-tight">
                   {feature.title}
                 </h3>
-                <p className="text-[#6B6B6B] text-lg leading-relaxed">
+                <p className="text-slate-500 text-base leading-relaxed font-medium">
                   {feature.description}
                 </p>
               </div>

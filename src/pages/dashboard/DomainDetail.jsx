@@ -146,12 +146,13 @@ export default function DomainDetail() {
                     <AlertCircle className="w-16 h-16 text-gray-300 mx-auto mb-4" />
                     <h2 className="text-2xl font-bold text-[#1A1A1A] mb-2">Domain Not Found</h2>
                     <p className="text-[#4A4A4A] mb-6">This domain doesn't exist or you don't have access to it.</p>
-                    <Button asChild>
-                        <Link to="/my-domains">
-                            <ArrowLeft className="w-4 h-4 mr-2" />
-                            Back to Domains
-                        </Link>
-                    </Button>
+                    <Link
+                        to="/my-domains"
+                        className="inline-flex items-center justify-center px-4 py-2 border border-black bg-white text-black text-sm hover:shadow-[3px_3px_0px_0px_rgba(0,0,0)] transition duration-200 cursor-pointer font-semibold rounded-lg"
+                    >
+                        <ArrowLeft className="w-4 h-4 mr-2" />
+                        Back to Domains
+                    </Link>
                 </div>
             </div>
         );
@@ -234,10 +235,10 @@ export default function DomainDetail() {
                             </p>
                         </div>
                         <div className="flex flex-col items-end gap-1.5">
-                             <Button
+                             <button
                                 onClick={handleRenew}
                                 disabled={isRenewing || (daysUntilExpiry && daysUntilExpiry > 60) || domain.status === 'Pending Deletion'}
-                                className="bg-[#e6f4ea] text-[#1e8e3e] hover:bg-[#d4edda] border border-[#ceead6] font-bold h-7 disabled:opacity-50 disabled:cursor-not-allowed w-full sm:w-auto text-[10px] px-2.5 shadow-none"
+                                className="bg-[#e6f4ea] text-[#1e8e3e] hover:-translate-y-0.5 border border-[#ceead6] font-bold h-7 disabled:opacity-50 disabled:cursor-not-allowed w-full sm:w-auto text-[10px] px-2.5 shadow-none transition-all duration-200 cursor-pointer hover:bg-[#d4edda] rounded"
                                 title={
                                     domain.status === 'Pending Deletion'
                                         ? 'Cannot renew - deletion pending'
@@ -246,7 +247,7 @@ export default function DomainDetail() {
                             >
                                 <RefreshCw className={`w-3 h-3 justify-center ${isRenewing ? 'animate-spin mr-1' : 'mr-1'}`} />
                                 {isRenewing ? 'Renewing...' : 'Renew'}
-                            </Button>
+                            </button>
                             {daysUntilExpiry && daysUntilExpiry > 60 && (
                                 <p className="text-[10px] text-[#888] flex items-center gap-1 font-medium">
                                     <Clock className="w-3 h-3" />
@@ -323,7 +324,7 @@ export default function DomainDetail() {
                             <h2 className="text-lg sm:text-xl font-bold text-[#1A1A1A] truncate">DNS Configuration</h2>
                         </div>
                         {domain.status !== 'Pending Deletion' && domain.status !== 'Suspended' && (
-                            <Button
+                            <button
                                 onClick={() => {
                                     if (isEditingDNS) {
                                         // Cancel editing — reset values
@@ -340,9 +341,7 @@ export default function DomainDetail() {
                                         setIsEditingDNS(true);
                                     }
                                 }}
-                                variant={isEditingDNS ? "outline" : "default"}
-                                size="sm"
-                                className={`font-bold flex-shrink-0 ${isEditingDNS ? 'border-red-500 text-red-600 hover:bg-red-50' : 'bg-[#1A1A1A] text-white hover:bg-[#333]'}`}
+                                className={`font-bold flex-shrink-0 px-4 py-1.5 rounded-lg border-2 border-black text-sm hover:shadow-[3px_3px_0px_0px_rgba(0,0,0)] transition duration-200 cursor-pointer flex items-center justify-center ${isEditingDNS ? 'bg-red-100 hover:bg-red-200 text-red-600' : 'bg-[#FFD23F] hover:bg-[#FFB800] text-black'}`}
                             >
                                 {isEditingDNS ? (
                                     <>
@@ -355,7 +354,7 @@ export default function DomainDetail() {
                                         Edit
                                     </>
                                 )}
-                            </Button>
+                            </button>
                         )}
                     </div>
                 </div>
@@ -465,7 +464,7 @@ export default function DomainDetail() {
                                             });
                                         }
                                     }}
-                                    className="bg-[#1A1A1A] text-white hover:bg-[#333] font-bold px-5 py-2 rounded-lg text-sm transition-colors"
+                                    className="px-5 py-2 border-2 border-black bg-[#FFD23F] hover:bg-[#FFB800] text-black font-extrabold text-sm hover:shadow-[3px_3px_0px_0px_rgba(0,0,0)] transition duration-200 cursor-pointer rounded-lg font-bold"
                                 >
                                     Save Nameservers
                                 </button>
@@ -528,14 +527,14 @@ export default function DomainDetail() {
                                 </p>
                             </div>
                         )}
-                        <Button
+                        <button
                             onClick={() => setDnsVerifyOpen(true)}
                             disabled={domain.status === 'Pending Deletion' || domain.status === 'Suspended'}
-                            className="bg-[#F59E0B] text-black hover:bg-[#D97706] font-bold flex-shrink-0"
+                            className="bg-[#F59E0B] text-black border-2 border-black font-extrabold flex-shrink-0 px-4 py-2 rounded-lg hover:shadow-[3px_3px_0px_0px_rgba(0,0,0)] transition duration-200 cursor-pointer disabled:opacity-50 disabled:hover:shadow-none flex items-center gap-2"
                         >
-                            <KeyRound className="w-4 h-4 mr-2" />
+                            <KeyRound className="w-4 h-4" />
                             {domain.ownershipVerified ? 'Re-verify' : domain.dnsVerificationCode ? 'Update Code' : 'Add Code'}
-                        </Button>
+                        </button>
                     </div>
                 </div>
             </div>
@@ -571,16 +570,16 @@ export default function DomainDetail() {
                     </div>
                     <AlertDialogFooter>
                         <AlertDialogCancel className="font-bold">Cancel</AlertDialogCancel>
-                        <Button
+                        <button
                             onClick={(e) => {
                                 e.preventDefault();
                                 handleSetDnsVerificationCode();
                             }}
                             disabled={isSettingCode || !dnsVerifyCode.trim()}
-                            className="bg-[#F59E0B] text-black hover:bg-[#D97706] font-bold"
+                            className="bg-[#F59E0B] text-black border border-black font-bold px-4 py-2 rounded-lg hover:bg-[#D97706] disabled:opacity-50 cursor-pointer"
                         >
                             {isSettingCode ? 'Saving...' : 'Save Code'}
-                        </Button>
+                        </button>
                     </AlertDialogFooter>
                 </AlertDialogContent>
             </AlertDialog>

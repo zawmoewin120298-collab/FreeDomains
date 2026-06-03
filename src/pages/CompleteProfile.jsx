@@ -239,7 +239,7 @@ export default function CompleteProfile() {
             </div>
 
             <p className="mt-8 text-xs text-[#888]">
-                &copy; 2025 Indevs.in
+                &copy; 2026 Stackryze domains
             </p>
         </div>
     );

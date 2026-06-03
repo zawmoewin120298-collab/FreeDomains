@@ -465,7 +465,7 @@ export default function Register() {
                                             {/* Step 1: Verify */}
                                             <a
                                                 href={`${API_BASE}/github/kyc/start?domain=${encodeURIComponent(domain)}&root=${encodeURIComponent(rootDomain)}`}
-                                                className="inline-flex items-center justify-center gap-2 bg-[#1A1A1A] text-white px-5 py-2.5 rounded-lg font-bold text-sm hover:bg-[#333] transition-all border-2 border-[#1A1A1A]"
+                                                className="inline-flex items-center justify-center gap-2 px-5 py-2.5 border-2 border-black bg-[#1A1A1A] text-white font-bold text-sm hover:bg-[#333] hover:shadow-[3px_3px_0px_0px_rgba(0,0,0)] transition duration-200 cursor-pointer rounded-lg"
                                             >
                                                 <Github className="w-4 h-4" />
                                                 Verify with GitHub
@@ -546,13 +546,13 @@ export default function Register() {
 
 
                     {/* Register Button — disabled when KYC gate is active */}
-                    <Button
+                    <button
                         onClick={handleRegister}
                         disabled={
                             !isAvailable || !acceptedToS || !captchaToken || isSubmitting || !canRegisterMore ||
                             !user?.githubVerified
                         }
-                        className="w-full bg-[#FFD23F] hover:bg-[#FFB800] text-[#1A1A1A] font-extrabold py-6 text-lg transition-all disabled:opacity-50 disabled:cursor-not-allowed  hover:shadow-none hover:translate-x-[2px] hover:translate-y-[2px] disabled:shadow-none"
+                        className="w-full bg-[#FFD23F] text-[#1A1A1A] font-extrabold py-4 text-lg border-2 border-black rounded-xl hover:shadow-[4px_4px_0px_0px_rgba(0,0,0)] hover:-translate-x-[2px] hover:-translate-y-[2px] transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:shadow-none disabled:translate-x-0 disabled:translate-y-0 cursor-pointer flex items-center justify-center"
                     >
                         {isSubmitting ? (
                             <>
@@ -565,7 +565,7 @@ export default function Register() {
                                 Register Domain
                             </>
                         )}
-                    </Button>
+                    </button>
 
                     {/* Info Notice */}
                     <div className="bg-blue-50 border-l-4 border-blue-400 p-5 rounded-r-lg">

@@ -1,4 +1,4 @@
-import { Plus, Minus } from "lucide-react";
+import { ChevronDown } from "lucide-react";
 import { useState } from "react";
 
 export function FAQSection() {
@@ -32,44 +32,42 @@ export function FAQSection() {
   ];
 
   return (
-    <section className="w-full py-12 md:py-24 bg-white border-t-4 border-[#1A1A1A]">
-      <div className="max-w-4xl mx-auto px-6 w-full">
+    <section className="w-full py-10 md:py-16 bg-white relative">
+      <div className="max-w-3xl mx-auto px-6 w-full">
 
-        <div className="mb-16">
-          <h2 className="text-3xl md:text-5xl font-bold text-[#1A1A1A] mb-4">
-            Questions?
+        <div className="mb-16 text-center">
+          <h2 className="text-3xl md:text-4xl font-extrabold text-slate-900 mb-4 tracking-tight">
+            Frequently Asked Questions
           </h2>
-          <p className="text-xl text-[#6B6B6B]">
-            Here are the ones we get asked most.
+          <p className="text-lg text-slate-500 font-medium">
+            Everything you need to know about the product and billing.
           </p>
         </div>
 
-        <div className="space-y-4">
+        <div className="space-y-2">
           {faqs.map((faq, idx) => (
             <div
               key={idx}
-              className="border-2 border-[#1A1A1A] bg-[#FFF8F0]"
+              className="border-b border-slate-200/80 last:border-b-0"
             >
               <button
                 onClick={() => setOpenIndex(openIndex === idx ? null : idx)}
-                className="w-full px-8 py-6 flex items-center justify-between text-left hover:bg-[#FFD23F] transition-colors duration-150"
+                className="w-full py-6 flex items-center justify-between text-left group"
               >
-                <span className="text-lg md:text-xl font-bold text-[#1A1A1A] pr-8">
+                <span className="text-lg font-semibold text-slate-900 group-hover:text-blue-600 transition-colors duration-300 pr-8">
                   {faq.question}
                 </span>
-                {openIndex === idx ? (
-                  <Minus className="w-6 h-6 text-[#1A1A1A] flex-shrink-0" />
-                ) : (
-                  <Plus className="w-6 h-6 text-[#1A1A1A] flex-shrink-0" />
-                )}
+                <div className={`w-8 h-8 rounded-full flex items-center justify-center transition-all duration-300 ${openIndex === idx ? 'bg-blue-50 text-blue-600' : 'bg-slate-50 text-slate-400 group-hover:bg-blue-50 group-hover:text-blue-600'}`}>
+                   <ChevronDown className={`w-5 h-5 flex-shrink-0 transition-transform duration-500 ${openIndex === idx ? 'rotate-180' : ''}`} />
+                </div>
               </button>
 
               <div
-                className="overflow-hidden transition-all duration-300 ease-in-out"
-                style={{ maxHeight: openIndex === idx ? "200px" : "0px" }}
+                className="overflow-hidden transition-all duration-500 ease-in-out opacity-0"
+                style={{ maxHeight: openIndex === idx ? "200px" : "0px", opacity: openIndex === idx ? 1 : 0 }}
               >
-                <div className="px-8 pb-6 pt-2">
-                  <p className="text-lg text-[#6B6B6B] leading-relaxed">
+                <div className="pb-6 pr-12">
+                  <p className="text-base text-slate-500 leading-relaxed font-medium">
                     {faq.answer}
                   </p>
                 </div>
@@ -79,13 +77,13 @@ export function FAQSection() {
         </div>
 
         {/* CTA at bottom */}
-        <div className="mt-16 text-center">
-          <p className="text-lg text-[#6B6B6B] mb-6">
+        <div className="mt-20 text-center">
+          <p className="text-base text-slate-500 mb-6 font-medium">
             Still have questions? We're on GitHub Discussions.
           </p>
           <a
             href="/login"
-            className="inline-block bg-[#FF6B35] text-white px-12 py-4 font-bold text-lg uppercase tracking-wider hover:bg-[#1A1A1A] transition-colors duration-150"
+            className="inline-flex items-center justify-center px-8 py-3.5 rounded-full bg-slate-900 text-white font-semibold text-sm hover:bg-slate-800 transition-all duration-300 hover:shadow-lg hover:shadow-slate-900/20 hover:-translate-y-0.5"
           >
             Get Your Subdomain
           </a>

@@ -153,7 +153,7 @@ export default function MyDomains() {
                 <button
                     onClick={refresh}
                     disabled={loading}
-                    className="inline-flex items-center gap-2 px-4 py-2 bg-white border-[1px] border-[#D1D5DB] text-[#374151] font-semibold text-sm rounded-lg hover:border-[#9CA3AF] transition-colors disabled:opacity-50 self-start sm:self-auto"
+                    className="inline-flex items-center gap-2 px-4 py-2 bg-neutral-100 border border-neutral-300 text-neutral-500 font-semibold text-sm rounded-lg hover:-translate-y-0.5 transform transition-all duration-200 hover:shadow-md disabled:opacity-50 self-start sm:self-auto cursor-pointer"
                 >
                     <RefreshCw className={`w-4 h-4 ${loading ? 'animate-spin' : ''}`} />
                     {loading ? 'Refreshing…' : 'Refresh'}
@@ -202,10 +202,10 @@ export default function MyDomains() {
                         </span>
                     </div>
                     <Link to="/register">
-                        <Button size="sm" className="bg-[#111827] hover:bg-[#374151] text-white font-semibold shadow-none transition-colors">
-                            <Plus className="w-4 h-4 mr-2" />
+                        <button className="inline-flex items-center gap-1.5 px-4 py-2 border border-black bg-white text-black text-sm hover:shadow-[3px_3px_0px_0px_rgba(0,0,0)] transition duration-200 cursor-pointer font-semibold rounded-lg">
+                            <Plus className="w-4 h-4" />
                             Register New
-                        </Button>
+                        </button>
                     </Link>
                 </div>
 
@@ -401,27 +401,22 @@ export default function MyDomains() {
                                 </td>
                                 <td className="p-2 sm:p-3 md:p-4 text-right align-middle">
                                     <div className="flex justify-end items-center gap-1.5 flex-wrap">
-                                        <Button
-                                            size="sm"
+                                        <button
                                             onClick={() => handleRenew(domain)}
                                             disabled={isRenewing || loading || domain.status === 'Pending Deletion'}
-                                            className="h-7 md:h-8 px-2.5 bg-[#e6f4ea] text-[#1e8e3e] hover:bg-[#d4edda] border border-[#ceead6] font-bold shadow-none hover:shadow-sm transition-all disabled:opacity-50 text-[10px] md:text-xs whitespace-nowrap"
+                                            className="h-7 md:h-8 px-2.5 bg-[#e6f4ea] text-[#1e8e3e] hover:-translate-y-0.5 border border-[#ceead6] font-bold shadow-none hover:shadow-sm transition-all duration-200 disabled:opacity-50 text-[10px] md:text-xs whitespace-nowrap cursor-pointer hover:bg-[#d4edda] rounded"
                                             title={domain.status === 'Pending Deletion' ? 'Cannot renew - deletion pending' : 'Renew Domain'}
                                         >
                                             <RefreshCw className="w-3 h-3 sm:w-4 sm:h-4 mr-1 sm:mr-2" />
                                             Renew
-                                        </Button>
-                                        <Button
-                                            variant="outline"
-                                            size="sm"
-                                            asChild
-                                            className="h-7 md:h-8 px-2.5 font-bold border-[1px] border-[#D1D5DB] hover:border-[#1A1A1A] hover:bg-[#1A1A1A] hover:text-white transition-all text-[10px] md:text-xs whitespace-nowrap bg-white text-[#4A4A4A]"
+                                        </button>
+                                        <Link
+                                            to={`/domains/${domain._id}`}
+                                            className="inline-flex items-center justify-center h-7 md:h-8 px-2.5 font-bold border border-[#D1D5DB] hover:border-black bg-white text-[#4A4A4A] hover:text-black hover:shadow-[3px_3px_0px_0px_rgba(0,0,0)] transition-all duration-200 text-[10px] md:text-xs whitespace-nowrap cursor-pointer rounded"
                                         >
-                                            <Link to={`/domains/${domain._id}`}>
-                                                <SettingsIcon className="w-3 h-3 md:w-3.5 md:h-3.5 mr-1.5" />
-                                                Manage
-                                            </Link>
-                                        </Button>
+                                            <SettingsIcon className="w-3 h-3 md:w-3.5 md:h-3.5 mr-1.5" />
+                                            Manage
+                                        </Link>
                                     </div>
                                 </td>
                             </tr>
@@ -526,7 +521,7 @@ export default function MyDomains() {
                                     </div>
                                 </div>
                                 <div className="flex justify-end pt-2">
-                                    <Button onClick={handleUpdateNameservers} size="sm" className="font-bold bg-[#1A1A1A]">Save Nameservers</Button>
+                                    <button onClick={handleUpdateNameservers} className="px-4 py-2 border-2 border-black bg-[#FFD23F] hover:bg-[#FFB800] text-black font-extrabold text-sm hover:shadow-[3px_3px_0px_0px_rgba(0,0,0)] transition duration-200 cursor-pointer rounded-lg">Save Nameservers</button>
                                 </div>
                             </div>
                         </div>
@@ -546,13 +541,12 @@ export default function MyDomains() {
                                             className="h-8 text-xs bg-white"
                                             onKeyDown={(e) => e.key === 'Enter' && handleAddLog()}
                                         />
-                                        <Button
-                                            size="sm"
-                                            className="h-8 text-xs font-bold uppercase tracking-wider px-4"
+                                        <button
+                                            className="h-8 text-xs font-extrabold uppercase tracking-wider px-4 border border-black bg-white hover:bg-neutral-50 text-black hover:shadow-[2px_2px_0px_0px_rgba(0,0,0)] transition duration-200 cursor-pointer rounded"
                                             onClick={handleAddLog}
                                         >
                                             Add
-                                        </Button>
+                                        </button>
                                     </div>
                                 </div>
                                 <div className="max-h-40 overflow-y-auto">
@@ -581,13 +575,12 @@ export default function MyDomains() {
                                     <p className="font-bold text-red-900">Delete Domain</p>
                                     <p className="text-xs text-red-700">Permanently remove this domain.</p>
                                 </div>
-                                <Button
-                                    variant="destructive"
+                                <button
                                     onClick={() => setDeleteId(selectedDomain.id)}
-                                    className="font-bold"
+                                    className="px-4 py-2 border-2 border-black bg-red-600 hover:bg-red-700 text-white font-bold text-sm hover:shadow-[3px_3px_0px_0px_rgba(0,0,0)] transition duration-200 cursor-pointer rounded-lg font-bold"
                                 >
                                     Delete Domain
-                                </Button>
+                                </button>
                             </div>
                         </div>
                     </div>

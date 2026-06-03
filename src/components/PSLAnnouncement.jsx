@@ -155,10 +155,13 @@ export function PSLAnnouncement() {
                                 <a
                                     href="/register"
                                     onClick={() => setShowModal(false)}
-                                    className="flex-1 inline-flex items-center justify-center gap-2 bg-violet-600 text-white px-5 py-3 rounded-xl font-extrabold text-sm hover:bg-violet-700 transition-all"
+                                    className="flex-1 inline-flex items-center justify-center gap-2 px-5 py-3 border-2 border-black bg-transparent text-black font-extrabold text-sm relative group transition duration-200 cursor-pointer rounded-xl overflow-hidden"
                                 >
-                                    <Github className="w-4 h-4" />
-                                    Claim Your Domain →
+                                    <div className="absolute -bottom-1.5 -right-1.5 bg-violet-600 h-full w-full -z-10 group-hover:bottom-0 group-hover:right-0 transition-all duration-200 border-2 border-black rounded-xl" />
+                                    <span className="relative flex items-center gap-2 text-white group-hover:text-black font-bold">
+                                        <Github className="w-4 h-4" />
+                                        Claim Your Domain →
+                                    </span>
                                 </a>
                             </div>
 
@@ -172,7 +175,7 @@ export function PSLAnnouncement() {
                                     href="https://github.com/sponsors/sudheerbhuvana"
                                     target="_blank"
                                     rel="noreferrer"
-                                    className="inline-flex items-center justify-center gap-2 bg-[#111827] text-white font-bold text-xs px-4 py-2 rounded-lg hover:bg-[#1f2937] transition-colors"
+                                    className="inline-flex items-center justify-center gap-2 h-10 animate-shimmer rounded-lg border border-slate-800 bg-[linear-gradient(110deg,#000103,45%,#1e2631,55%,#000103)] bg-[length:200%_100%] px-4 font-bold text-xs text-white transition-colors focus:outline-none cursor-pointer"
                                 >
                                     <Heart className="w-3.5 h-3.5 fill-[#FF6B35] text-[#FF6B35]" />
                                     Sponsor on GitHub
@@ -186,7 +189,7 @@ export function PSLAnnouncement() {
                         <div className="sticky bottom-0 bg-white border-t-2 border-[#E5E3DF] p-4">
                             <button
                                 onClick={() => setShowModal(false)}
-                                className="w-full bg-[#1A1A1A] text-white py-3 rounded-xl font-bold hover:bg-[#333] transition-colors"
+                                className="w-full bg-[#1A1A1A] hover:bg-[#FFD23F] border-2 border-black text-white hover:text-black py-3 rounded-xl font-extrabold hover:shadow-[4px_4px_0px_0px_rgba(0,0,0)] transition-all duration-200 cursor-pointer"
                             >
                                 Got it, thanks! 🚀
                             </button>

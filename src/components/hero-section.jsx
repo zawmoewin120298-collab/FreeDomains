@@ -1,22 +1,42 @@
-import { ArrowRight, Loader2, CheckCircle, XCircle, Heart } from "lucide-react";
-import { useState } from "react";
+import { ArrowRight, Loader2, CheckCircle, XCircle, Heart, ChevronDown } from "lucide-react";
+import { useState, useRef, useEffect } from "react";
 import { useNavigate, Link } from "react-router-dom";
+import { NextJSWhiteButton } from "./ui/tailwindcss-buttons";
+
+const DOMAINS = [
+  { tld: "indevs.in", label: ".indevs.in" },
+  { tld: "sryze.cc", label: ".sryze.cc" },
+  { tld: "ryzedns.org", label: ".ryzedns.org" },
+  { tld: "nx.kg", label: ".nx.kg" },
+];
 
 export function HeroSection() {
   const [domain, setDomain] = useState("");
+  const [selectedTld, setSelectedTld] = useState(DOMAINS[0]);
+  const [dropdownOpen, setDropdownOpen] = useState(false);
   const [isChecking, setIsChecking] = useState(false);
   const [isAvailable, setIsAvailable] = useState(null);
   const [errorMsg, setErrorMsg] = useState("");
+  const dropdownRef = useRef(null);
   const navigate = useNavigate();
+
+  // Close dropdown on outside click
+  useEffect(() => {
+    const handler = (e) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(e.target)) {
+        setDropdownOpen(false);
+      }
+    };
+    document.addEventListener("mousedown", handler);
+    return () => document.removeEventListener("mousedown", handler);
+  }, []);
 
   const checkAvailability = async () => {
     const domainLower = domain.toLowerCase().trim();
 
-    // Reset states
     setErrorMsg("");
     setIsAvailable(null);
 
-    // Validation
     if (!domainLower) return;
 
     if (domainLower.length < 3) {
@@ -45,7 +65,9 @@ export function HeroSection() {
 
     setIsChecking(true);
     try {
-      const response = await fetch(`${import.meta.env.VITE_API_URL || 'http://localhost:5000'}/subdomains/check/${domainLower}`);
+      const response = await fetch(
+        `${import.meta.env.VITE_API_URL || 'http://localhost:5000'}/subdomains/check/${domainLower}?domain=${selectedTld.tld}`
+      );
 
       if (response.status === 429) {
         setErrorMsg("You are searching too fast! Please wait a minute.");
@@ -54,7 +76,6 @@ export function HeroSection() {
       }
 
       const data = await response.json();
-
       if (data.available) {
         setIsAvailable(true);
         setErrorMsg("");
@@ -62,8 +83,7 @@ export function HeroSection() {
         setIsAvailable(false);
         setErrorMsg(data.message || "Domain is already taken");
       }
-    } catch (error) {
-      // Network error or other issue
+    } catch {
       setErrorMsg("Unable to check availability");
       setIsAvailable(null);
     } finally {
@@ -73,7 +93,6 @@ export function HeroSection() {
 
   const handleClaimClick = () => {
     if (domain && isAvailable) {
-      // Redirect to login with domain pre-filled
       navigate('/login');
     } else {
       checkAvailability();
@@ -81,9 +100,7 @@ export function HeroSection() {
   };
 
   const handleKeyPress = (e) => {
-    if (e.key === 'Enter') {
-      handleClaimClick();
-    }
+    if (e.key === 'Enter') handleClaimClick();
   };
 
   return (
@@ -109,110 +126,137 @@ export function HeroSection() {
           </div>
 
           {/* Right: Search */}
-          <div className="w-full">
-            <div className="bg-[#111113]/80 backdrop-blur-xl border border-white/10 rounded-2xl p-6 md:p-8 shadow-2xl ring-1 ring-white/5 w-full relative overflow-hidden">
-              {/* Subtle gradient glow inside the card */}
-              <div className="absolute -top-24 -right-24 w-48 h-48 bg-[#6FD1D7]/20 blur-3xl rounded-full pointer-events-none"></div>
+          <div className="w-full space-y-5" ref={dropdownRef}>
 
-              <label className="block text-xs font-bold uppercase tracking-widest mb-5 text-gray-400">
-                Check Availability
-              </label>
+            <label className="block text-xs font-bold uppercase tracking-widest text-white/50">
+              Check Availability
+            </label>
 
-              <div className="space-y-5 relative z-10">
-                <div className="flex border border-white/10 rounded-xl relative overflow-hidden focus-within:ring-2 focus-within:ring-[#6FD1D7]/30 focus-within:border-[#6FD1D7] transition-all bg-black/40 shadow-inner">
-                  <input
-                    type="text"
-                    placeholder="yourname"
-                    value={domain}
-                    onChange={(e) => setDomain(e.target.value.toLowerCase().replace(/[^a-z0-9-]/g, ''))}
-                    onKeyPress={handleKeyPress}
-                    className="flex-1 px-5 py-4 text-base md:text-lg font-mono min-w-0 outline-none text-white placeholder:text-gray-600 bg-transparent"
-                  />
-                  <span className="px-5 py-4 text-gray-400 font-mono text-sm md:text-base flex items-center border-l border-white/10 bg-black/20">
-                    .indevs.in
-                  </span>
-                  {isChecking && (
-                    <div className="absolute right-32 top-1/2 -translate-y-1/2">
-                      <Loader2 className="w-5 h-5 text-[#6FD1D7] animate-spin" />
-                    </div>
-                  )}
-                </div>
-
+            <div className="flex border border-white/20 rounded-xl relative z-50 focus-within:ring-2 focus-within:ring-[#6FD1D7]/50 focus-within:border-[#6FD1D7] transition-all bg-[#121214]/70 backdrop-blur-xl">
+              <input
+                type="text"
+                placeholder="yourname"
+                value={domain}
+                onChange={(e) => { setDomain(e.target.value.toLowerCase().replace(/[^a-z0-9-]/g, '')); setIsAvailable(null); setErrorMsg(''); }}
+                onKeyPress={handleKeyPress}
+                className="flex-1 px-5 py-4 text-base md:text-lg font-mono min-w-0 outline-none text-white placeholder:text-white/30 bg-transparent"
+              />
+              {/* TLD Dropdown */}
+              <div className="relative flex-shrink-0">
                 <button
-                  onClick={handleClaimClick}
-                  disabled={isChecking || (domain.length > 0 && domain.length < 3)}
-                  className="w-full bg-[#FFD23F] text-[#1A1A1A] rounded-xl py-4 px-6 font-extrabold uppercase tracking-widest text-sm hover:bg-[#FFB800] transition-all flex items-center justify-center gap-2 shadow-[0_0_20px_rgba(255,210,63,0.15)] hover:shadow-[0_0_25px_rgba(255,210,63,0.25)] disabled:opacity-50 disabled:cursor-not-allowed disabled:shadow-none"
+                  type="button"
+                  onClick={() => setDropdownOpen((o) => !o)}
+                  className="h-full px-4 py-4 text-white/90 font-mono text-sm md:text-base flex items-center gap-2 border-l border-white/20 bg-white/5 hover:bg-white/10 transition-colors whitespace-nowrap rounded-r-xl"
                 >
-                  {isChecking ? (
-                    <>
-                      <Loader2 className="w-5 h-5 animate-spin" />
-                      Checking...
-                    </>
-                  ) : isAvailable ? (
-                    <>
-                      Login to Claim
-                      <ArrowRight className="w-5 h-5" />
-                    </>
-                  ) : (
-                    <>
-                      Check Availability
-                      <ArrowRight className="w-5 h-5" />
-                    </>
-                  )}
+                  {selectedTld.label}
+                  <ChevronDown className={`w-3.5 h-3.5 opacity-60 transition-transform duration-200 ${dropdownOpen ? 'rotate-180' : ''}`} />
                 </button>
-
-                {/* Status Messages */}
-                {domain && domain.length > 0 && domain.length < 3 && (
-                  <p className="text-sm font-medium text-amber-500 flex items-center gap-1.5 mt-2">
-                    <XCircle className="w-4 h-4" />
-                    Domain must be at least 3 characters
-                  </p>
-                )}
-                {errorMsg && domain.length >= 3 && (
-                  <p className="text-sm font-medium text-red-400 flex items-center gap-1.5 mt-2">
-                    <XCircle className="w-4 h-4" />
-                    {errorMsg}
-                  </p>
-                )}
-                {isAvailable && !errorMsg && (
-                  <p className="text-sm font-medium text-emerald-400 flex items-center gap-1.5 mt-2">
-                    <CheckCircle className="w-4 h-4" />
-                    <span className="font-bold text-white">{domain}.indevs.in</span> is available!
-                  </p>
+                {dropdownOpen && (
+                  <div className="absolute right-0 top-[calc(100%+8px)] bg-[#121214]/90 backdrop-blur-xl border border-white/20 rounded-xl shadow-2xl overflow-hidden z-50 w-48 origin-top-right animate-in fade-in zoom-in-95 duration-200">
+                    <div className="py-1.5 px-1.5 flex flex-col gap-0.5">
+                      {DOMAINS.map((d) => (
+                        <button
+                          key={d.tld}
+                          type="button"
+                          onClick={() => { setSelectedTld(d); setDropdownOpen(false); setIsAvailable(null); setErrorMsg(''); }}
+                          className={`w-full flex items-center justify-between px-3 py-2.5 rounded-lg font-mono text-sm transition-all duration-200 ${selectedTld.tld === d.tld
+                              ? 'text-white bg-white/15 font-semibold shadow-sm'
+                              : 'text-white/70 hover:text-white hover:bg-white/10'
+                            }`}
+                        >
+                          {d.label}
+                          {selectedTld.tld === d.tld && (
+                            <CheckCircle className="w-4 h-4 flex-shrink-0 text-[#6FD1D7]" />
+                          )}
+                        </button>
+                      ))}
+                    </div>
+                  </div>
                 )}
               </div>
-
-              <div className="mt-8 pt-6 border-t border-white/10 text-center relative z-10">
-                <Link to="/donate" className="inline-flex items-center gap-2 text-sm font-medium text-gray-400 hover:text-white transition-colors group">
-                  <Heart className="w-4 h-4 text-rose-500/80 group-hover:text-rose-500 fill-rose-500/50 group-hover:fill-rose-500 transition-all" />
-                  Help us keep this free — Donate
-                </Link>
-              </div>
+              {isChecking && (
+                <div className="absolute right-44 top-1/2 -translate-y-1/2">
+                  <Loader2 className="w-5 h-5 text-[#6FD1D7] animate-spin" />
+                </div>
+              )}
             </div>
-          </div>v>
+
+            <NextJSWhiteButton
+              onClick={handleClaimClick}
+              id="check-availability-btn"
+              disabled={isChecking || (domain.length > 0 && domain.length < 3)}
+              className="w-full rounded-xl py-4 px-6 font-extrabold uppercase tracking-widest text-sm text-slate-800 hover:text-slate-900 transition-all duration-200 flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed disabled:hover:shadow-[0_4px_14px_0_rgb(0,0,0,10%)]"
+            >
+              {isChecking ? (
+                <>
+                  <Loader2 className="w-5 h-5 animate-spin" />
+                  Checking...
+                </>
+              ) : isAvailable ? (
+                <>
+                  Login to Claim
+                  <ArrowRight className="w-5 h-5" />
+                </>
+              ) : (
+                <>
+                  Check Availability
+                  <ArrowRight className="w-5 h-5" />
+                </>
+              )}
+            </NextJSWhiteButton>
+
+            {/* Status Messages */}
+            {domain && domain.length > 0 && domain.length < 3 && (
+              <p className="text-sm font-medium text-amber-400 flex items-center gap-1.5">
+                <XCircle className="w-4 h-4" />
+                Domain must be at least 3 characters
+              </p>
+            )}
+            {errorMsg && domain.length >= 3 && (
+              <p className="text-sm font-medium text-red-400 flex items-center gap-1.5">
+                <XCircle className="w-4 h-4" />
+                {errorMsg}
+              </p>
+            )}
+            {isAvailable && !errorMsg && (
+              <p className="text-sm font-medium text-emerald-400 flex items-center gap-1.5">
+                <CheckCircle className="w-4 h-4" />
+                <span className="font-bold text-white">{domain}{selectedTld.label}</span> is available!
+              </p>
+            )}
+
+            <div className="pt-4 flex flex-col items-center gap-3 text-center">
+              <p className="text-white text-lg">We're a small team of students with a passion for making the internet more open and accessible. Your support helps us keep this project free and continue improving it for everyone.</p>
+              <Link to="/donate" className="inline-flex items-center gap-2 text-lg font-bold text-rose-400 hover:text-rose-300 transition-colors group">
+                <Heart className="w-5 h-5 fill-rose-400 group-hover:fill-rose-300 transition-all" />
+                Support the project
+              </Link>
+            </div>
+          </div>
+
         </div>
 
       </div>
 
       {/* Scrolling Benefits Ticker - Full Width */}
-      <div className="relative z-10 mt-10 md:mt-16 w-full border-t-2 border-b-2 border-[#E5E3DF] bg-white">
+      <div className="relative z-10 w-full border-t border-b border-white/10 bg-[#0F0F11]">
         <div className="flex gap-4 md:gap-6 animate-scroll min-w-max py-3 border-x-0">
           {[
-            "INSTANT ACTIVATION",
-            "FULL DNS CONTROL",
-            "NO BILLING DETAILS",
-            "MADE FOR THE WORLD",
+            "GLOBAL ANYCAST NETWORK",
+            "GLOBALLY DISTRIBUTED NETWORK",
             "100% OPEN SOURCE",
-            "FREE FOREVER",
-            "INSTANT ACTIVATION",
-            "FULL DNS CONTROL",
-            "NO BILLING DETAILS",
-            "MADE FOR THE WORLD",
+            "GLOBAL ANYCAST NETWORK",
+            "GLOBALLY DISTRIBUTED NETWORK",
             "100% OPEN SOURCE",
-            "FREE FOREVER",
+            "GLOBAL ANYCAST NETWORK",
+            "GLOBALLY DISTRIBUTED NETWORK",
+            "100% OPEN SOURCE",
+            "GLOBAL ANYCAST NETWORK",
+            "GLOBALLY DISTRIBUTED NETWORK",
+            "100% OPEN SOURCE",
           ].map((text, idx) => (
-            <div key={idx} className="flex-shrink-0 bg-white px-3 md:px-6 py-2 border-r-2 border-[#E5E3DF] last:border-r-0">
-              <span className="font-bold text-[#1A1A1A] tracking-wider text-sm md:text-base whitespace-nowrap">
+            <div key={idx} className="flex-shrink-0 px-3 md:px-6 py-2 border-r border-white/10 last:border-r-0">
+              <span className="font-bold text-white/50 tracking-wider text-sm md:text-base whitespace-nowrap">
                 {text}
               </span>
             </div>

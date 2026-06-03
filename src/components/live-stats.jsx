@@ -51,12 +51,12 @@ export function LiveStatsSection() {
   ];
 
   return (
-    <section className="w-full pt-12 md:pt-24 pb-12 md:pb-24 bg-slate-50 relative">
+    <section className="w-full py-8 md:py-12 bg-slate-50 relative">
       <div className="w-full px-4 sm:px-6 md:px-12 lg:px-16 mb-16">
         
-        <div className="mb-12 space-y-4 text-center md:text-left">
+        <div className="mb-16 space-y-4 text-center">
           <h2 className="text-3xl md:text-4xl font-extrabold text-slate-900 tracking-tight">
-            Trusted by developers <span className="text-emerald-600">worldwide</span>
+            Trusted by developers <span className="text-transparent bg-clip-text bg-gradient-to-r from-emerald-500 to-emerald-700">worldwide</span>
           </h2>
         </div>
 
@@ -64,18 +64,21 @@ export function LiveStatsSection() {
           {statItems.map((stat, idx) => (
             <div
               key={idx}
-              className="bg-white border border-slate-200 rounded-2xl p-6 h-full hover:shadow-lg transition-all duration-300 flex flex-col justify-between"
+              className="group bg-white border border-slate-200/60 rounded-2xl p-8 h-full hover:shadow-xl hover:shadow-slate-200/40 hover:-translate-y-1 transition-all duration-500 flex flex-col justify-between relative overflow-hidden ring-1 ring-black/[0.02]"
             >
-              <div className="flex flex-col items-start">
-                <div className={`w-12 h-12 flex items-center justify-center rounded-xl mb-6 ${stat.iconBg}`}>
-                  <stat.icon className="w-6 h-6" strokeWidth={2.5} />
+              {/* Subtle hover gradient background */}
+              <div className="absolute inset-0 bg-gradient-to-br from-slate-50/80 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+
+              <div className="flex flex-col items-start relative z-10">
+                <div className={`w-12 h-12 flex items-center justify-center rounded-xl mb-6 ${stat.iconBg} ring-1 ring-black/5 shadow-sm transition-transform duration-500 group-hover:scale-110`}>
+                  <stat.icon className="w-6 h-6" strokeWidth={2} />
                 </div>
                 
-                <div className="text-4xl lg:text-5xl font-black text-slate-900 mb-2 tracking-tight">
+                <div className="text-4xl lg:text-5xl font-black text-slate-900 mb-2 tracking-tight transition-transform duration-500 group-hover:-translate-y-1">
                   {stat.value}
                 </div>
                 
-                <div className="text-slate-500 text-sm font-semibold uppercase tracking-wider">
+                <div className="text-slate-500 text-sm font-medium tracking-wide">
                   {stat.label}
                 </div>
               </div>
