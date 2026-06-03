@@ -1,3 +1,4 @@
+import { Fragment } from "react";
 import { Terminal, ShieldCheck, Eye, Users, Key, Server, Database, Globe } from "lucide-react";
 import { Globe3D } from "./ui/3d-globe";
 
@@ -81,68 +82,77 @@ export function MissionSection() {
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-start relative">
 
           {/* Left: Scrollable Stacked Content */}
-          <div className="relative pb-10">
+          <div className="relative pb-0">
 
             {[ 
               { isIntro: true },
               ...features.map(f => ({ isIntro: false, ...f }))
-            ].map((block, idx) => (
-              <div
-                key={idx}
-                className="sticky w-full bg-white pt-8 pb-8 min-h-[400px]"
-                style={{ 
-                  zIndex: 10 + idx, 
-                  marginBottom: "50vh",
-                  top: "35vh"
-                }}
-              >
-                <div className="relative z-10 bg-white pr-4">
-                  {block.isIntro ? (
-                    <>
-                      <h2 className="text-4xl md:text-5xl lg:text-6xl font-extrabold text-slate-900 leading-tight tracking-tight mb-6">
-                        Who are we?
-                      </h2>
-                      <div className="space-y-4 text-slate-600 text-base md:text-lg leading-relaxed font-medium">
-                        <p>
-                          We are a small team of passionate developers building an open, accessible, and community-driven namespace for the modern internet.
-                        </p>
-                        <p>
-                          Providing completely free domain names for open-source projects, communities, and individuals to launch ideas without financial barriers.
-                        </p>
-                        <p>
-                          Enjoy fast and simple domain management, robust built-in security with automated abuse prevention, and absolutely zero hidden fees or upsells.
-                        </p>
-                      </div>
-                    </>
-                  ) : (
-                    <div className="flex gap-6 items-start">
-                      <div
-                        className="w-16 h-16 rounded-2xl flex items-center justify-center flex-shrink-0 ring-1 ring-slate-100 shadow-sm mt-1"
-                        style={{ backgroundColor: `${block.accent}15`, color: block.accent }}
-                      >
-                        <block.icon className="w-8 h-8" strokeWidth={2} />
-                      </div>
-                      <div className="space-y-2 flex-1">
-                        <div>
-                          <h3 className="text-slate-900 font-extrabold text-2xl md:text-3xl tracking-tight">{block.title}</h3>
-                          <p className="text-slate-400 text-xs font-bold uppercase tracking-wider mt-1">{block.subtitle}</p>
+            ].map((block, idx, arr) => (
+              <Fragment key={idx}>
+                <div
+                  className="sticky w-full bg-white pt-8 pb-8 min-h-[65vh]"
+                  style={{ 
+                    zIndex: 10 + idx, 
+                    top: "35vh"
+                  }}
+                >
+                  <div className="relative z-10 bg-white pr-4">
+                    {block.isIntro ? (
+                      <>
+                        <h2 className="text-4xl md:text-5xl lg:text-6xl font-extrabold text-slate-900 leading-tight tracking-tight mb-6">
+                          Who are we?
+                        </h2>
+                        <div className="space-y-4 text-slate-600 text-base md:text-lg leading-relaxed font-medium">
+                          <p>
+                            We are a small team of passionate developers building an open, accessible, and community-driven namespace for the modern internet.
+                          </p>
+                          <p>
+                            Providing completely free domain names for open-source projects, communities, and individuals to launch ideas without financial barriers.
+                          </p>
+                          <p>
+                            Enjoy fast and simple domain management, robust built-in security with automated abuse prevention, and absolutely zero hidden fees or upsells.
+                          </p>
                         </div>
-                        <p className="text-slate-600 text-base md:text-lg leading-relaxed font-medium">
-                          {block.description}
-                        </p>
+                      </>
+                    ) : (
+                      <div className="flex gap-6 items-start">
+                        <div
+                          className="w-16 h-16 rounded-2xl flex items-center justify-center flex-shrink-0 ring-1 ring-slate-100 shadow-sm mt-1"
+                          style={{ backgroundColor: `${block.accent}15`, color: block.accent }}
+                        >
+                          <block.icon className="w-8 h-8" strokeWidth={2} />
+                        </div>
+                        <div className="space-y-2 flex-1">
+                          <div>
+                            <h3 className="text-slate-900 font-extrabold text-2xl md:text-3xl tracking-tight">{block.title}</h3>
+                            <p className="text-slate-400 text-xs font-bold uppercase tracking-wider mt-1">{block.subtitle}</p>
+                          </div>
+                          <p className="text-slate-600 text-base md:text-lg leading-relaxed font-medium">
+                            {block.description}
+                          </p>
+                        </div>
                       </div>
-                    </div>
-                  )}
+                    )}
+                  </div>
+                  {/* White Tail to hide previous content */}
+                  <div className="absolute top-full left-0 right-0 h-[150vh] bg-white pointer-events-none z-0"></div>
                 </div>
-                {/* White Tail to hide previous content */}
-                <div className="absolute top-full left-0 right-0 h-[150vh] bg-white pointer-events-none z-0"></div>
-              </div>
+                {idx < arr.length - 1 && (
+                  <div className="h-[50vh] w-full pointer-events-none" />
+                )}
+              </Fragment>
             ))}
 
           </div>
 
           {/* Right: Floating Globe Illustration (Sticky) */}
-          <div className="flex items-center justify-center lg:justify-end w-full lg:sticky lg:top-32 h-auto lg:h-[calc(100vh-8rem)] pb-32 lg:pb-0 hidden lg:flex">
+          <div 
+            className="flex items-center justify-center lg:justify-end w-full lg:sticky pb-32 lg:pb-0"
+            style={{ 
+              top: "35vh",
+              height: "65vh"
+            }}
+          >
             <div className="relative w-full max-w-[600px] h-[600px] flex items-center justify-center">
               {/* Subtle background glow */}
               <div className="absolute inset-0 bg-blue-500/5 blur-[120px] rounded-full pointer-events-none"></div>

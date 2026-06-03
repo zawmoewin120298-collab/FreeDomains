@@ -296,7 +296,21 @@ export function Globe3D({
       renderer.setSize(w, h);
     };
 
-    window.addEventListener("resize", handleResize);
+    // 9. Resize Observer
+    const resizeObserver = new ResizeObserver((entries) => {
+      for (let entry of entries) {
+        const w = containerRef.current?.clientWidth || 0;
+        const h = containerRef.current?.clientHeight || 0;
+        if (w > 0 && h > 0) {
+          camera.aspect = w / h;
+          camera.updateProjectionMatrix();
+          renderer.setSize(w, h);
+        }
+      }
+    });
+    if (containerRef.current) {
+      resizeObserver.observe(containerRef.current);
+    }
 
     // 10. Cleanups
     return () => {

@@ -37,7 +37,7 @@ export function HowItWorksSection() {
   ];
 
   return (
-    <section className="w-full py-10 md:py-16 bg-white relative overflow-hidden">
+    <section className="w-full py-10 md:py-16 bg-white relative z-30 overflow-hidden shadow-[0_-20px_50px_rgba(0,0,0,0.02)]">
       {/* Background ambient blur */}
       <div className="absolute top-0 right-0 -translate-y-1/2 translate-x-1/3 w-[600px] h-[600px] bg-slate-100 blur-[100px] rounded-full pointer-events-none opacity-50"></div>
 
