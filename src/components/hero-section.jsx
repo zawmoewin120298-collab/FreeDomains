@@ -238,31 +238,7 @@ export function HeroSection() {
 
       </div>
 
-      {/* Scrolling Benefits Ticker - Full Width */}
-      <div className="relative z-10 w-full border-t border-b border-white/10 bg-[#0F0F11]">
-        <div className="flex gap-4 md:gap-6 animate-scroll min-w-max py-3 border-x-0">
-          {[
-            "GLOBAL ANYCAST NETWORK",
-            "GLOBALLY DISTRIBUTED NETWORK",
-            "100% OPEN SOURCE",
-            "GLOBAL ANYCAST NETWORK",
-            "GLOBALLY DISTRIBUTED NETWORK",
-            "100% OPEN SOURCE",
-            "GLOBAL ANYCAST NETWORK",
-            "GLOBALLY DISTRIBUTED NETWORK",
-            "100% OPEN SOURCE",
-            "GLOBAL ANYCAST NETWORK",
-            "GLOBALLY DISTRIBUTED NETWORK",
-            "100% OPEN SOURCE",
-          ].map((text, idx) => (
-            <div key={idx} className="flex-shrink-0 px-3 md:px-6 py-2 border-r border-white/10 last:border-r-0">
-              <span className="font-bold text-white/50 tracking-wider text-sm md:text-base whitespace-nowrap">
-                {text}
-              </span>
-            </div>
-          ))}
-        </div>
-      </div>
+ 
     </section>
   );
 }
