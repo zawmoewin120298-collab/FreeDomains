@@ -26,7 +26,7 @@ const SidebarItem = ({ to, icon: Icon, label, active, onClick }) => (
         onClick={onClick}
         className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl font-bold transition-all duration-300 text-sm ${active
             ? "bg-slate-900 dark:bg-white/10 text-white shadow-sm"
-            : "text-slate-600 dark:text-slate-400 hover:bg-slate-900/5 dark:hover:bg-white/5 hover:text-slate-900 dark:hover:text-white"
+            : "text-slate-900 dark:text-white hover:bg-slate-900/5 dark:hover:bg-white/5"
             }`}
     >
         <Icon className="w-5 h-5 flex-shrink-0" />
@@ -190,7 +190,7 @@ export default function DashboardLayout() {
                                 onClick={() => setSidebarOpen(false)}
                                 className="p-2 hover:bg-slate-900/5 dark:hover:bg-white/5 rounded-lg transition-colors"
                             >
-                                <X className="w-5 h-5 text-slate-600 dark:text-slate-400" />
+                                <X className="w-5 h-5 text-slate-900 dark:text-white" />
                             </button>
                         </div>
                         <SidebarContent />
