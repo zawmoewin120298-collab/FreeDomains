@@ -1,8 +1,8 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import {
     Mail, Shield, Scale, LifeBuoy, AlertTriangle, MessageCircle,
     FileText, ChevronDown, ChevronUp, ExternalLink, Book, Zap,
-    Globe, Settings, GitBranch, Search
+    Globe, Settings, GitBranch, Search, HelpCircle
 } from 'lucide-react';
 
 const DOCS_BASE = "https://domain-docs.stackryze.com";
@@ -79,19 +79,20 @@ function FAQ({ q, a }) {
         <button
             type="button"
             onClick={() => setOpen(o => !o)}
-            className="w-full text-left bg-white border-[1px] border-[#D1D5DB] rounded-xl p-4 hover:border-[#9CA3AF] transition-colors group"
+            className="w-full text-left bg-white/60 dark:bg-white/5 backdrop-blur-md border border-slate-200/80 dark:border-white/10 rounded-2xl p-5 hover:bg-slate-50 dark:hover:bg-white/10 transition-all group shadow-sm"
         >
             <div className="flex items-center justify-between gap-4">
-                <span className="font-semibold text-[#111827] text-sm">{q}</span>
-                {open
-                    ? <ChevronUp className="w-4 h-4 text-[#6B7280] flex-shrink-0" />
-                    : <ChevronDown className="w-4 h-4 text-[#6B7280] flex-shrink-0" />
-                }
+                <span className="font-bold text-slate-900 dark:text-white text-base">{q}</span>
+                <div className={`w-8 h-8 rounded-full flex items-center justify-center transition-colors ${open ? 'bg-slate-900 dark:bg-white text-white dark:text-slate-900' : 'bg-slate-100 dark:bg-white/10 text-slate-900 dark:text-white group-hover:bg-slate-200 dark:group-hover:bg-white/20'}`}>
+                    {open ? <ChevronUp className="w-4 h-4" /> : <ChevronDown className="w-4 h-4" />}
+                </div>
             </div>
             {open && (
-                <p className="mt-3 text-sm text-[#4B5563] leading-relaxed border-t border-[#F3F4F6] pt-3">
-                    {a}
-                </p>
+                <div className="mt-4 pt-4 border-t border-slate-200/80 dark:border-white/10">
+                    <p className="text-sm font-medium text-slate-900 dark:text-white leading-relaxed">
+                        {a}
+                    </p>
+                </div>
             )}
         </button>
     );
@@ -107,64 +108,78 @@ const contacts = [
 
 export default function Help() {
     return (
-        <div className="max-w-3xl space-y-8">
+        <div className="max-w-4xl space-y-10">
 
             {/* Header */}
             <div>
-                <p className="text-xs font-bold uppercase tracking-widest text-[#FF6B35] mb-1">Support</p>
-                <h1 className="text-2xl md:text-3xl font-extrabold text-[#111827] leading-tight">Help & Contact</h1>
-                <p className="text-sm text-[#6B7280] mt-1">Find answers below, browse the docs, or reach out directly.</p>
+                <p className="text-sm font-bold uppercase tracking-widest text-orange-500 mb-2 flex items-center gap-2">
+                    <LifeBuoy className="w-4 h-4" />
+                    Support
+                </p>
+                <h1 className="text-3xl md:text-4xl font-extrabold text-slate-900 dark:text-white leading-tight mb-3">Help & Contact</h1>
+                <p className="text-base font-medium text-slate-900 dark:text-white leading-relaxed max-w-2xl">
+                    Find answers below, browse the comprehensive documentation, or reach out to our team directly.
+                </p>
             </div>
 
             {/* Discord CTA */}
-            <div className="bg-white border-[1px] border-[#D1D5DB] rounded-2xl p-5 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
-                <div>
-                    <p className="font-bold text-[#111827] text-base">Join our Discord</p>
-                    <p className="text-sm text-[#4B5563] mt-0.5">Get real-time help from the community and the Stackryze team.</p>
+            <div className="bg-white/60 dark:bg-white/5 backdrop-blur-xl border border-slate-200/80 dark:border-white/10 rounded-[24px] p-6 md:p-8 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-6 shadow-sm relative overflow-hidden group">
+                <div className="absolute inset-0 bg-gradient-to-r from-blue-500/5 to-transparent pointer-events-none"></div>
+                <div className="flex items-start gap-4 relative z-10">
+                    <div className="w-12 h-12 rounded-2xl bg-[#5865F2]/10 border border-[#5865F2]/20 flex items-center justify-center flex-shrink-0 shadow-inner">
+                        <MessageCircle className="w-6 h-6 text-[#5865F2] fill-[#5865F2]/20" />
+                    </div>
+                    <div>
+                        <p className="font-extrabold text-slate-900 dark:text-white text-xl mb-1">Join our Discord</p>
+                        <p className="text-sm font-medium text-slate-900 dark:text-white opacity-80 leading-relaxed max-w-sm">Get real-time help from the community and the Stackryze core team.</p>
+                    </div>
                 </div>
                 <a
                     href="https://discord.gg/wr7s97cfM7"
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="inline-flex items-center gap-2 px-4 py-2 bg-[#5865F2] hover:bg-[#4752C4] text-white font-bold rounded-lg transition-colors text-sm whitespace-nowrap flex-shrink-0"
+                    className="inline-flex items-center justify-center gap-2 px-6 py-3.5 bg-[#5865F2] text-white font-bold text-sm rounded-xl hover:scale-[1.02] shadow-[0_4px_14px_0_rgba(88,101,242,0.39)] hover:shadow-[0_6px_20px_rgba(88,101,242,0.23)] transition-all duration-300 whitespace-nowrap flex-shrink-0 w-full md:w-auto relative z-10"
                 >
-                    <MessageCircle className="w-4 h-4" />
+                    <MessageCircle className="w-4 h-4 fill-white/20" />
                     Open Discord
-                    <ExternalLink className="w-3.5 h-3.5 opacity-70" />
+                    <ExternalLink className="w-4 h-4" />
                 </a>
             </div>
 
             {/* Documentation */}
-            <div>
-                <div className="flex items-center justify-between mb-3">
-                    <h2 className="text-sm font-bold uppercase tracking-widest text-[#4B5563]">Documentation</h2>
+            <div className="bg-white/40 dark:bg-white/5 backdrop-blur-md border border-slate-200/80 dark:border-white/10 rounded-[24px] p-6 md:p-8 shadow-sm">
+                <div className="flex items-center justify-between mb-6">
+                    <h2 className="text-xl font-extrabold text-slate-900 dark:text-white flex items-center gap-2">
+                        <Book className="w-5 h-5 text-orange-500" />
+                        Documentation
+                    </h2>
                     <a
                         href={DOCS_BASE}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="inline-flex items-center gap-1 text-xs font-semibold text-[#FF6B35] hover:text-[#e55a24] transition-colors"
+                        className="inline-flex items-center gap-1.5 px-3 py-1.5 bg-slate-900 dark:bg-white text-white dark:text-slate-900 font-bold text-xs rounded-lg hover:scale-[1.02] transition-transform shadow-sm"
                     >
                         View all docs <ExternalLink className="w-3 h-3" />
                     </a>
                 </div>
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     {docLinks.map(({ icon: Icon, title, desc, href }) => (
                         <a
                             key={href}
                             href={href}
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="bg-white border-[1px] border-[#D1D5DB] rounded-xl p-4 flex items-start gap-3 hover:border-[#9CA3AF] transition-colors group"
+                            className="bg-white/80 dark:bg-[#111]/80 backdrop-blur-sm border border-slate-200/80 dark:border-white/10 rounded-2xl p-5 flex flex-col gap-3 hover:border-slate-300 dark:hover:border-white/20 hover:scale-[1.02] transition-all group shadow-sm"
                         >
-                            <div className="w-9 h-9 rounded-lg bg-[#F9FAFB] border-[1px] border-[#E5E7EB] flex items-center justify-center flex-shrink-0 mt-0.5">
-                                <Icon className="w-4 h-4 text-[#4B5563]" />
+                            <div className="w-10 h-10 rounded-xl bg-slate-100 dark:bg-white/10 flex items-center justify-center flex-shrink-0">
+                                <Icon className="w-5 h-5 text-slate-900 dark:text-white" />
                             </div>
                             <div className="min-w-0 flex-1">
-                                <p className="font-semibold text-sm text-[#111827] flex items-center gap-1">
+                                <p className="font-bold text-base text-slate-900 dark:text-white flex items-center gap-1">
                                     {title}
-                                    <ExternalLink className="w-3 h-3 text-[#9CA3AF] opacity-0 group-hover:opacity-100 transition-opacity" />
+                                    <ExternalLink className="w-3.5 h-3.5 opacity-0 group-hover:opacity-100 transition-opacity" />
                                 </p>
-                                <p className="text-xs text-[#6B7280] mt-0.5">{desc}</p>
+                                <p className="text-sm font-medium text-slate-900 dark:text-white opacity-80 mt-1 leading-relaxed">{desc}</p>
                             </div>
                         </a>
                     ))}
@@ -172,30 +187,36 @@ export default function Help() {
             </div>
 
             {/* FAQ */}
-            <div>
-                <h2 className="text-sm font-bold uppercase tracking-widest text-[#4B5563] mb-3">Frequently Asked Questions</h2>
-                <div className="space-y-2">
+            <div className="pt-4">
+                <h2 className="text-xl font-extrabold text-slate-900 dark:text-white mb-6 flex items-center gap-2">
+                    <HelpCircle className="w-5 h-5 text-orange-500" />
+                    Frequently Asked Questions
+                </h2>
+                <div className="space-y-3">
                     {faqs.map((f, i) => <FAQ key={i} q={f.q} a={f.a} />)}
                 </div>
             </div>
 
             {/* Contact */}
-            <div>
-                <h2 className="text-sm font-bold uppercase tracking-widest text-[#4B5563] mb-3">Email Us</h2>
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+            <div className="pt-4">
+                <h2 className="text-xl font-extrabold text-slate-900 dark:text-white mb-6 flex items-center gap-2">
+                    <Mail className="w-5 h-5 text-orange-500" />
+                    Email Support
+                </h2>
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     {contacts.map(({ icon: Icon, title, email, desc }) => (
                         <a
                             key={email}
                             href={`mailto:${email}`}
-                            className="bg-white border-[1px] border-[#D1D5DB] rounded-xl p-4 flex items-start gap-3 hover:border-[#9CA3AF] transition-colors group"
+                            className="bg-white/60 dark:bg-white/5 backdrop-blur-md border border-slate-200/80 dark:border-white/10 rounded-2xl p-5 flex flex-col gap-3 hover:bg-slate-50 dark:hover:bg-white/10 hover:border-slate-300 dark:hover:border-white/20 transition-all group shadow-sm"
                         >
-                            <div className="w-9 h-9 rounded-lg bg-[#F9FAFB] border-[1px] border-[#E5E7EB] flex items-center justify-center flex-shrink-0 mt-0.5">
-                                <Icon className="w-4 h-4 text-[#4B5563]" />
+                            <div className="w-10 h-10 rounded-xl bg-slate-900 dark:bg-white flex items-center justify-center flex-shrink-0">
+                                <Icon className="w-5 h-5 text-white dark:text-slate-900" />
                             </div>
                             <div className="min-w-0">
-                                <p className="font-semibold text-sm text-[#111827]">{title}</p>
-                                <p className="text-xs text-[#6B7280] mt-0.5">{desc}</p>
-                                <p className="text-xs font-mono text-[#4B5563] mt-1.5 group-hover:text-[#111827] transition-colors">{email}</p>
+                                <p className="font-bold text-base text-slate-900 dark:text-white">{title}</p>
+                                <p className="text-sm font-medium text-slate-900 dark:text-white opacity-80 mt-1">{desc}</p>
+                                <p className="text-xs font-mono font-bold text-slate-900 dark:text-white mt-3 px-2 py-1 bg-slate-100 dark:bg-black/40 rounded border border-slate-200/80 dark:border-white/5 inline-block group-hover:border-slate-300 dark:group-hover:border-white/20 transition-colors">{email}</p>
                             </div>
                         </a>
                     ))}

@@ -1,5 +1,5 @@
 import { useState, useLayoutEffect, useRef } from "react";
-import { X, Star, CheckCircle, Rocket } from "lucide-react";
+import { X, Rocket, Github } from "lucide-react";
 
 export function IncidentAnnouncement() {
     const [showModal, setShowModal] = useState(false);
@@ -14,30 +14,34 @@ export function IncidentAnnouncement() {
             }
         };
 
-        updateHeight();
+        // Delay slightly to ensure fonts/layout are ready before calculating height
+        const timeoutId = window.setTimeout(updateHeight, 50);
+        
         window.addEventListener('resize', updateHeight);
         return () => {
+            window.clearTimeout(timeoutId);
             window.removeEventListener('resize', updateHeight);
             document.documentElement.style.removeProperty('--incident-height');
         };
-    }, [dismissed]);
+    }, [dismissed, showModal]);
 
     if (dismissed) return null;
 
     return (
         <>
-            {/* Support Banner */}
-            <div ref={bannerRef} className="bg-gradient-to-r from-[#FFF8F0] to-amber-50 border-b-2 border-[#FFD23F] w-full fixed top-0 left-0 right-0 z-[100]">
-                <div className="max-w-7xl mx-auto px-4 py-2.5 sm:px-6 lg:px-8">
-                    <div className="flex items-center justify-between flex-wrap gap-3">
-                        <div className="flex items-center gap-3 flex-1 min-w-0">
-                            <span className="text-base flex-shrink-0">🎉</span>
-                            <p className="text-sm font-medium text-[#1A1A1A]">
-                                <span className="font-bold">New: nx.kg</span> domain extension is live!{" "}
-                                <span className="text-[#4A4A4A]">Star our repo to unlock access.</span>{" "}
+            {/* Minimalist Thin Banner */}
+            <div ref={bannerRef} className="bg-white/70 dark:bg-white/5 backdrop-blur-xl border-b border-slate-200/80 dark:border-white/10 w-full fixed top-0 left-0 right-0 z-[100] shadow-sm">
+                <div className="max-w-[1600px] mx-auto px-4 py-2 sm:px-6 lg:px-8">
+                    <div className="flex items-center justify-between flex-wrap gap-2">
+                        <div className="flex items-center gap-2 flex-1 min-w-0">
+                            <span className="text-sm flex-shrink-0 animate-pulse">🚀</span>
+                            <p className="text-xs font-medium text-slate-900 dark:text-white truncate">
+                                <span className="font-extrabold text-orange-500">NEW:</span>{" "}
+                                <span className="font-mono font-bold">.nx.kg</span>{" "}
+                                domains are live!{" "}
                                 <button
                                     onClick={() => setShowModal(true)}
-                                    className="text-[#FF6B35] hover:text-[#e05520] underline font-bold"
+                                    className="ml-2 font-bold underline transition-colors hover:text-orange-500 whitespace-nowrap"
                                 >
                                     Learn more →
                                 </button>
@@ -45,115 +49,79 @@ export function IncidentAnnouncement() {
                         </div>
                         <button
                             onClick={() => setDismissed(true)}
-                            className="p-1.5 hover:bg-amber-100 rounded-lg transition-colors flex-shrink-0"
-                            aria-label="Dismiss"
+                            className="flex-shrink-0 p-1 hover:bg-slate-900/5 dark:hover:bg-white/10 rounded-lg transition-colors"
+                            aria-label="Dismiss announcement"
                         >
-                            <X className="w-4 h-4 text-[#6B7280]" />
+                            <X className="w-3.5 h-3.5 text-slate-900 dark:text-white hover:text-orange-500 transition-colors" />
                         </button>
                     </div>
                 </div>
             </div>
 
-            {/* Modal */}
+            {/* Compact Modal */}
             {showModal && (
-                <div className="fixed inset-0 z-[200] flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm">
-                    <div className="bg-white rounded-2xl shadow-2xl max-w-lg w-full max-h-[90vh] overflow-y-auto border-2 border-[#E5E3DF]">
+                <div className="fixed inset-0 z-[200] flex items-center justify-center p-4 bg-black/40 backdrop-blur-sm">
+                    <div className="bg-white/90 dark:bg-[#1A1A1A]/95 backdrop-blur-2xl border border-slate-200/80 dark:border-white/10 rounded-[24px] shadow-2xl w-full max-w-md max-h-[90vh] overflow-hidden flex flex-col">
+
                         {/* Header */}
-                        <div className="sticky top-0 bg-[#FFF8F0] p-6 border-b-2 border-[#FFD23F] flex items-start justify-between">
-                            <div className="flex items-start gap-3">
-                                <div className="p-2 bg-[#FFD23F]/30 rounded-lg border border-[#FFD23F]">
-                                    <Rocket className="w-6 h-6 text-[#FF6B35]" />
+                        <div className="bg-white/60 dark:bg-white/5 backdrop-blur-xl border-b border-slate-200/80 dark:border-white/10 p-5 flex items-start justify-between">
+                            <div className="flex items-center gap-3">
+                                <div className="p-2 bg-orange-500/10 rounded-xl border border-orange-500/20 shadow-sm flex-shrink-0">
+                                    <Rocket className="w-5 h-5 text-orange-500" />
                                 </div>
                                 <div>
-                                    <h2 className="text-xl font-bold text-[#1A1A1A]">New Domain Extensions</h2>
-                                    <p className="text-sm text-[#6B7280] mt-0.5">Unlock more domains for your projects</p>
+                                    <h2 className="text-lg font-extrabold text-slate-900 dark:text-white leading-tight">
+                                        .nx.kg is Live! 🎉
+                                    </h2>
                                 </div>
                             </div>
                             <button
                                 onClick={() => setShowModal(false)}
-                                className="p-2 hover:bg-amber-100 rounded-lg transition-colors"
-                                aria-label="Close"
+                                className="p-1.5 hover:bg-slate-900/5 dark:hover:bg-white/10 rounded-xl transition-colors"
+                                aria-label="Close modal"
                             >
-                                <X className="w-5 h-5 text-[#4A4A4A]" />
+                                <X className="w-5 h-5 text-slate-900 dark:text-white" />
                             </button>
                         </div>
 
                         {/* Content */}
-                        <div className="p-6 space-y-4 text-[#1A1A1A]">
-                            {/* New domain extension */}
-                            <div className="bg-green-50 border-l-4 border-green-500 p-4 rounded-r-lg">
-                                <div className="flex items-start gap-2">
-                                    <CheckCircle className="w-4 h-4 text-green-600 flex-shrink-0 mt-0.5" />
-                                    <div>
-                                        <p className="text-sm font-bold text-green-900 mb-1">🎉 New: nx.kg domain extension!</p>
-                                        <p className="text-xs text-green-800">
-                                            Now offering <strong className="font-mono">.indevs.in</strong>, <strong className="font-mono">.sryze.cc</strong>, <strong className="font-mono">.ryzedns.org</strong>, and <strong className="font-mono">.nx.kg</strong>.
-                                        </p>
-                                    </div>
-                                </div>
+                        <div className="p-6 space-y-6">
+                            <p className="text-sm leading-relaxed text-slate-900 dark:text-white font-medium">
+                                We've just launched{" "}
+                                <strong className="font-mono font-bold text-orange-500">.nx.kg</strong> — our newest domain extension,
+                                joining{" "}
+                                <strong className="font-mono font-bold">.indevs.in</strong>,{" "}
+                                <strong className="font-mono font-bold">.sryze.cc</strong>, and{" "}
+                                <strong className="font-mono font-bold">.ryzedns.org</strong>.
+                                <br/><br/>
+                                All domains are <strong>free</strong>, instant, and come with full DNS management.
+                            </p>
+
+                            <div className="bg-orange-500/5 border border-orange-500/20 rounded-xl p-4">
+                                <p className="text-xs font-bold text-slate-900 dark:text-white text-center">
+                                    Star our GitHub repo to instantly unlock all premium extensions.
+                                </p>
                             </div>
 
-                            {/* Star to unlock */}
-                            <div className="bg-[#FFF8F0] border-2 border-[#FFD23F] rounded-xl p-4">
-                                <div className="flex items-start gap-3">
-                                    <span className="text-xl flex-shrink-0">⭐</span>
-                                    <div className="flex-1">
-                                        <h3 className="font-extrabold text-sm text-[#1A1A1A] mb-1">Star our repo to unlock more domains</h3>
-                                        <p className="text-xs text-[#4A4A4A] mb-3">
-                                            Starring helps us get discovered and keeps domains <strong>free for everyone</strong>.
-                                        </p>
-                                        <div className="bg-white border border-[#E5E7EB] rounded-lg p-3 mb-3">
-                                            <p className="text-xs font-bold text-[#1A1A1A] mb-1.5">⭐ Starring unlocks:</p>
-                                            <ul className="text-xs text-[#4A4A4A] space-y-1">
-                                                <li className="flex items-center gap-1.5">
-                                                    <CheckCircle className="w-3.5 h-3.5 text-green-500 flex-shrink-0" />
-                                                    1 free <strong className="font-mono">.nx.kg</strong> domain
-                                                </li>
-                                                <li className="flex items-center gap-1.5">
-                                                    <CheckCircle className="w-3.5 h-3.5 text-green-500 flex-shrink-0" />
-                                                    1 free <strong className="font-mono">.sryze.cc</strong> domain
-                                                </li>
-                                                <li className="flex items-center gap-1.5">
-                                                    <CheckCircle className="w-3.5 h-3.5 text-green-500 flex-shrink-0" />
-                                                    1 free <strong className="font-mono">.ryzedns.org</strong> domain
-                                                </li>
-                                                <li className="flex items-center gap-1.5">
-                                                    <CheckCircle className="w-3.5 h-3.5 text-green-500 flex-shrink-0" />
-                                                    1 extra <strong className="font-mono">.indevs.in</strong> slot
-                                                </li>
-                                                <li className="flex items-center gap-1.5">
-                                                    <CheckCircle className="w-3.5 h-3.5 text-green-500 flex-shrink-0" />
-                                                    Higher domain limits overall
-                                                </li>
-                                            </ul>
-                                        </div>
-                                        <ol className="text-xs text-[#6B7280] space-y-0.5 mb-4">
-                                            <li>1. Star our GitHub repo (button below)</li>
-                                            <li>2. Click "I've starred it — Verify" on the Register page</li>
-                                            <li>3. Instantly unlocked — no admin wait!</li>
-                                        </ol>
-                                        <a
-                                            href="https://github.com/stackryze/FreeDomains"
-                                            target="_blank"
-                                            rel="noopener noreferrer"
-                                            className="inline-flex items-center gap-2 bg-[#FFD23F] text-[#1A1A1A] px-4 py-2 rounded-lg font-bold text-sm hover:bg-[#FFB800] transition-all shadow-[3px_3px_0px_0px_#1A1A1A] hover:shadow-none hover:translate-x-[1px] hover:translate-y-[1px]"
-                                        >
-                                            <Star className="w-4 h-4" />
-                                            ⭐ Star the Repo ↗
-                                        </a>
-                                    </div>
-                                </div>
+                            {/* CTAs */}
+                            <div className="flex flex-col sm:flex-row gap-3">
+                                <a
+                                    href="/register"
+                                    onClick={() => setShowModal(false)}
+                                    className="flex-1 inline-flex items-center justify-center gap-2 px-5 py-3 border border-slate-200/80 dark:border-white/10 bg-slate-900 dark:bg-white text-white dark:text-slate-900 font-bold text-sm rounded-xl hover:scale-[1.02] transition-transform shadow-md"
+                                >
+                                    Claim Your Domain →
+                                </a>
+                                <a
+                                    href="https://github.com/stackryze/FreeDomains"
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                    className="flex-1 inline-flex items-center justify-center gap-2 px-5 py-3 border border-slate-200/80 dark:border-white/10 bg-white/60 dark:bg-white/5 backdrop-blur-md text-slate-900 dark:text-white font-bold text-sm rounded-xl hover:scale-[1.02] transition-transform shadow-sm"
+                                >
+                                    <Github className="w-4 h-4" />
+                                    Star Repo
+                                </a>
                             </div>
-                        </div>
-
-                        {/* Footer Buttons */}
-                        <div className="sticky bottom-0 bg-white border-t-2 border-[#E5E3DF] p-4 flex gap-3">
-                            <button
-                                onClick={() => setShowModal(false)}
-                                className="w-full bg-white border-2 border-[#E5E3DF] text-[#1A1A1A] py-3 rounded-lg font-bold hover:bg-gray-50 transition-colors text-sm"
-                            >
-                                Close
-                            </button>
                         </div>
                     </div>
                 </div>

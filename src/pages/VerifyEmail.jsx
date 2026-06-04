@@ -4,6 +4,8 @@ import { subdomainAPI } from "../lib/api";
 import { useToast } from "../hooks/use-toast";
 import { Loader2, MailCheck, AlertCircle } from "lucide-react";
 import { Link } from "react-router-dom";
+import { InputOTP, InputOTPGroup, InputOTPSlot } from "../components/ui/input-otp";
+import { Turnstile } from '@marsidev/react-turnstile';
 
 export default function VerifyEmail() {
     const [searchParams] = useSearchParams();
@@ -11,6 +13,7 @@ export default function VerifyEmail() {
     const [otp, setOtp] = useState("");
     const [isLoading, setIsLoading] = useState(false);
     const [isResending, setIsResending] = useState(false);
+    const [captchaToken, setCaptchaToken] = useState(import.meta.env.DEV ? "dev-bypass" : "");
     const { toast } = useToast();
     const navigate = useNavigate();
 
@@ -87,9 +90,18 @@ export default function VerifyEmail() {
     };
 
     const handleResend = async () => {
+        if (!captchaToken) {
+            toast({
+                variant: "destructive",
+                title: "Verification Required",
+                description: "Please complete the CAPTCHA verification to resend.",
+            });
+            return;
+        }
+
         setIsResending(true);
         try {
-            await subdomainAPI.post('/auth/email/resend-verification', { email });
+            await subdomainAPI.post('/auth/email/resend-verification', { email, captchaToken });
             toast({
                 title: "Code Resent",
                 description: "Check your inbox for a new verification code.",
@@ -108,16 +120,17 @@ export default function VerifyEmail() {
     return (
         <div className="min-h-screen flex flex-col items-center justify-center bg-[#FFF8F0] px-4 font-sans" style={{ paddingTop: 'var(--incident-height, 0px)' }}>
             <Link to="/" className="mb-8 flex items-center gap-3 group">
-                <img src="/stackryze_logo1.png" alt="Stackryze Logo" className="h-12 w-auto" />
-                <span className="text-2xl font-bold text-[#1A1A1A] tracking-tight">Stackryze Domains</span>
+                <img src="/stackryze_logo_black.png" alt="Stackryze Logo" className="h-12 w-auto dark:hidden" />
+                        <img src="/stackryze_logo_white.png" alt="Stackryze Logo" className="h-12 w-auto hidden dark:block" />
+                <span className="text-2xl font-bold text-[#1A1A1A] dark:text-white tracking-tight">Stackryze Domains</span>
             </Link>
 
-            <div className="w-full max-w-md bg-white border-2 border-[#E5E3DF] p-8 md:p-10 rounded-xl text-center">
+            <div className="w-full max-w-md bg-white dark:bg-[#111] border-2 border-[#E5E3DF] dark:border-[#27272a] p-8 md:p-10 rounded-xl text-center">
                 {/* NOREPLY EMAIL DETECTION */}
                 {isNoreplyEmail ? (
                     <>
                         <MailCheck className="w-16 h-16 text-red-500 mx-auto mb-4" />
-                        <h1 className="text-2xl font-bold text-[#1A1A1A] mb-2">Cannot Verify This Email</h1>
+                        <h1 className="text-2xl font-bold text-[#1A1A1A] dark:text-white mb-2">Cannot Verify This Email</h1>
 
                         <div className="bg-red-50 border border-red-200 text-red-900 p-4 rounded-lg text-left mb-6">
                             <div className="flex gap-3 mb-3">
@@ -146,23 +159,24 @@ export default function VerifyEmail() {
                 ) : (
                     <>
                         <MailCheck className="w-16 h-16 text-orange-500 mx-auto mb-4" />
-                        <h1 className="text-2xl font-bold text-[#1A1A1A] mb-2">Check your inbox</h1>
-                        <p className="text-[#4A4A4A] mb-6">
+                        <h1 className="text-2xl font-bold text-[#1A1A1A] dark:text-white mb-2">Check your inbox</h1>
+                        <p className="text-[#4A4A4A] dark:text-slate-400 mb-6">
                             We've sent a 6-digit verification code to <br />
                             <strong className="text-black">{email}</strong>
                         </p>
 
                         <form onSubmit={handleVerify} className="space-y-4">
-                            <div>
-                                <input
-                                    type="text"
-                                    required
-                                    maxLength={6}
-                                    value={otp}
-                                    onChange={(e) => setOtp(e.target.value.replace(/\D/g, ''))} // Numeric only
-                                    className="w-full text-center text-2xl tracking-[0.5em] px-3 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-black font-mono"
-                                    placeholder="000000"
-                                />
+                            <div className="flex flex-col items-center">
+                                <InputOTP maxLength={6} value={otp} onChange={setOtp} required>
+                                    <InputOTPGroup>
+                                        <InputOTPSlot index={0} />
+                                        <InputOTPSlot index={1} />
+                                        <InputOTPSlot index={2} />
+                                        <InputOTPSlot index={3} />
+                                        <InputOTPSlot index={4} />
+                                        <InputOTPSlot index={5} />
+                                    </InputOTPGroup>
+                                </InputOTP>
                             </div>
 
                             <button
@@ -174,12 +188,25 @@ export default function VerifyEmail() {
                             </button>
                         </form>
 
-                        <div className="mt-6 space-y-2">
+                        <div className="mt-6 space-y-4">
+                            {!import.meta.env.DEV && (
+                                <div className="flex justify-center py-2">
+                                    <Turnstile
+                                        siteKey={import.meta.env.VITE_TURNSTILE_SITE_KEY}
+                                        onSuccess={(token) => setCaptchaToken(token)}
+                                        onError={(error) => {
+                                            console.error('Turnstile error:', error);
+                                            toast({ variant: "destructive", title: "CAPTCHA Error", description: "Unable to load verification." });
+                                        }}
+                                        options={{ theme: 'light' }}
+                                    />
+                                </div>
+                            )}
                             <p className="text-xs text-gray-500">Code expires in 10 minutes.</p>
                             <button
                                 onClick={handleResend}
-                                disabled={isResending}
-                                className="text-sm text-gray-600 hover:text-black hover:underline disabled:opacity-50"
+                                disabled={isResending || !captchaToken}
+                                className="w-full text-sm font-medium text-[#1A1A1A] dark:text-white border-2 border-[#1A1A1A] dark:border-white py-2 rounded-lg hover:bg-gray-50 dark:hover:bg-white/10 transition-colors disabled:opacity-50"
                             >
                                 {isResending ? "Sending..." : "Didn't receive code? Resend"}
                             </button>

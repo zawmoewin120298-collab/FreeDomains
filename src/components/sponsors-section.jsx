@@ -32,52 +32,30 @@ export function SponsorsSection() {
     ];
 
     return (
-        <section className="w-full py-16 bg-[#FFF8F0] border-b-2 border-[#E5E7EB]">
+        <section className="w-full pt-6 md:pt-10 pb-4 bg-transparent">
             <div className="max-w-[1600px] mx-auto px-6 md:px-12 lg:px-16">
-                <div className="text-center mb-12">
-                    <h2 className="text-3xl md:text-5xl font-bold text-[#1A1A1A] mb-4">
-                        Sponsored <span className="text-[#FF6B35]">By</span>
+                <div className="mb-8 text-center">
+                    <h2 className="text-sm md:text-base font-bold text-slate-900 dark:text-white opacity-60 tracking-wider uppercase">
+                        Trusted By
                     </h2>
-                    <p className="max-w-2xl mx-auto text-base md:text-lg text-[#6B6B6B] leading-relaxed">
-                        These industry leaders help us keep Indevs free, open-source, and accessible to everyone.
-                    </p>
                 </div>
 
-                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+                <div className="flex flex-wrap items-center justify-center gap-12 md:gap-16">
                     {sponsors.map((sponsor, idx) => (
-                        <div
+                        <a
                             key={idx}
-                            className="bg-white border-4 border-[#1A1A1A] p-6 rounded-2xl hover:translate-x-1 hover:translate-y-1 hover:shadow-none transition-all duration-150 flex flex-col items-center text-center h-full"
-                            style={{
-                                boxShadow: `8px 8px 0px 0px ${sponsor.color}`
-                            }}
+                            href={sponsor.url}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="h-10 opacity-60 hover:opacity-100 transition-opacity duration-300 grayscale hover:grayscale-0"
+                            title={sponsor.name}
                         >
-                            <a
-                                href={sponsor.url}
-                                target="_blank"
-                                rel="noopener noreferrer"
-                                className="mb-6 h-12 flex items-center justify-center w-full"
-                            >
-                                <img
-                                    src={sponsor.logo}
-                                    alt={sponsor.name}
-                                    className="h-full w-auto object-contain max-w-[140px]"
-                                />
-                            </a>
-
-                            <p className="text-sm text-[#1A1A1A]/80 leading-relaxed font-medium">
-                                <a
-                                    href={sponsor.url}
-                                    target="_blank"
-                                    rel="noopener noreferrer"
-                                    className="font-bold hover:underline"
-                                    style={{ color: sponsor.color }}
-                                >
-                                    {sponsor.name}
-                                </a>
-                                {' '}{sponsor.description.replace(sponsor.name + ' ', '')}
-                            </p>
-                        </div>
+                            <img
+                                src={sponsor.logo}
+                                alt={sponsor.name}
+                                className="h-full w-auto object-contain dark:brightness-0 dark:invert"
+                            />
+                        </a>
                     ))}
                 </div>
             </div>

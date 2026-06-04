@@ -5,52 +5,50 @@ export function FeatureCards() {
     {
       number: "01",
       title: "Forever Free",
-      description: "Zero cost. Zero strings. Just claim your subdomain and it's yours. No subscriptions, no upsells.",
+      description: "We believe a great idea shouldn't come with a price tag. There are no hidden fees or subscriptions—your domain is completely free, forever.",
       icon: Globe,
       bg: "#FFD23F"
     },
     {
       number: "02",
       title: "Full DNS Control",
-      description: "Point to anywhere. A records, CNAME records, TXT records. Your subdomain, your rules.",
+      description: "Take the wheel with complete DNS management. Whether you need A, CNAME, or TXT records, you have the flexibility to point your domain exactly where you need it.",
       icon: Code,
       bg: "#FF6B35"
     },
     {
       number: "03",
       title: "Growing Community",
-      description: "Join a community of builders, makers, and creators. The perfect home for your personal projects.",
+      description: "You're in good company. Join thousands of developers, makers, and students who have already found the perfect home for their personal projects.",
       icon: Users,
       bg: "#2D5016"
     },
     {
       number: "04",
       title: "Instant Setup",
-      description: "Login with GitHub. Pick a name. Done in 30 seconds. No verification emails. No waiting.",
+      description: "Get up and running in seconds. Just log in with GitHub, pick your favorite name, and let our reliable, lightning-fast infrastructure handle the rest.",
       icon: Zap,
       bg: "#FFD23F"
     }
   ];
 
   return (
-    <section className="w-full pt-8 md:pt-16 pb-12 md:pb-24 bg-[#FFF8F0] relative">
-      <div className="w-full px-6 md:px-12 lg:px-16 mb-16">
+    <section className="w-full bg-transparent relative min-h-screen flex items-center">
+      <div className="w-full px-6 md:px-12 lg:px-16 max-w-[1600px] mx-auto py-16 md:py-20">
 
-        <div className="mb-16 space-y-6">
-          <h2 className="text-3xl md:text-5xl font-bold text-[#1A1A1A]">
-            The price of admission<br />
-            <span className="text-[#FF6B35]">is zero.</span>
+        <div className="mb-16 md:mb-20 space-y-6 text-center max-w-3xl mx-auto">
+          <h2 className="text-4xl md:text-6xl font-extrabold text-slate-900 dark:text-white tracking-tight leading-tight">
+            The price of admission <span className="text-transparent bg-clip-text bg-gradient-to-r from-orange-500 to-amber-500">is zero.</span>
           </h2>
 
-          <div className="max-w-3xl space-y-4 text-base md:text-lg text-[#6B6B6B] leading-relaxed">
+          <div className="space-y-4 text-base md:text-lg text-slate-900 dark:text-white opacity-90 leading-relaxed font-medium">
             <p>
               For too long, gatekeepers have put a price tag on your identity. We believe your first
               idea, your tenth side project, and your portfolio deserve a home, not a monthly bill.
             </p>
             <p>
-              <span className="font-bold text-[#1A1A1A]">Indevs</span> is our contribution to the chaotic, beautiful mess that is the open web.
-              Claim your <span className="font-bold text-[#1A1A1A]">*.indevs.in</span> domain. Point it at Vercel, Netlify, or that
-              Raspberry Pi in your closet. No strings attached. Just pure DNS freedom.
+              <span className="font-semibold text-slate-900 dark:text-white">Stackryze Domains</span> is our contribution to the chaotic, beautiful mess that is the open web.
+              Claim your domain, point it anywhere, and deploy. No strings attached.
             </p>
           </div>
         </div>
@@ -59,32 +57,25 @@ export function FeatureCards() {
           {features.map((feature, idx) => (
             <div
               key={idx}
-              className={`
-                bg-white border-4 border-[#1A1A1A] rounded-xl p-6 h-full
-                hover:translate-x-1 hover:translate-y-1 hover:shadow-none
-                transition-all duration-150 flex flex-col justify-between
-              `}
-              style={{
-                boxShadow: `8px 8px 0px 0px ${feature.bg}`
-              }}
+              className="bg-white/60 dark:bg-white/5 backdrop-blur-lg border border-slate-200/60 dark:border-white/10 rounded-[2rem] p-8 h-full shadow-[0_2px_10px_rgba(0,0,0,0.02)] hover:shadow-[0_8px_30px_rgba(0,0,0,0.06)] hover:-translate-y-1.5 transition-all duration-500 ease-out flex flex-col justify-between group"
             >
               <div>
                 <div className="flex items-start justify-between mb-8">
-                  <span className="text-4xl lg:text-5xl font-bold text-[#E5E3DF]">
+                  <span className="text-4xl lg:text-5xl font-black text-slate-200 dark:text-white/20 transition-colors duration-500 group-hover:text-slate-300 dark:group-hover:text-white/40">
                     {feature.number}
                   </span>
                   <div
-                    className="w-14 h-14 flex items-center justify-center border-2 border-[#1A1A1A] rounded-lg"
-                    style={{ backgroundColor: feature.bg }}
+                    className="w-14 h-14 flex items-center justify-center rounded-xl ring-1 ring-black/5 shadow-sm transition-transform duration-500 group-hover:scale-110"
+                    style={{ backgroundColor: `${feature.bg}15`, color: feature.bg }}
                   >
-                    <feature.icon className="w-7 h-7 text-[#1A1A1A]" />
+                    <feature.icon className="w-7 h-7" strokeWidth={2} />
                   </div>
                 </div>
 
-                <h3 className="text-2xl lg:text-3xl font-bold text-[#1A1A1A] mb-4">
+                <h3 className="text-xl lg:text-2xl font-bold text-slate-900 dark:text-white mb-4 tracking-tight">
                   {feature.title}
                 </h3>
-                <p className="text-[#6B6B6B] text-lg leading-relaxed">
+                <p className="text-slate-900 dark:text-white opacity-80 text-base leading-relaxed font-medium">
                   {feature.description}
                 </p>
               </div>

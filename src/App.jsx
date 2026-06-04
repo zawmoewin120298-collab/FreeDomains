@@ -7,7 +7,7 @@ import { Privacy } from './pages/legal/Privacy';
 import { AUP } from './pages/legal/AUP';
 import { Abuse } from './pages/legal/Abuse';
 import { About } from './pages/About';
-import { IncidentAnnouncement } from './components/IncidentAnnouncement';
+
 
 import Login from './pages/Login';
 import Signup from './pages/Signup';
@@ -78,7 +78,7 @@ function App() {
   return (
     <AuthProvider>
       <Router>
-        <IncidentAnnouncement />
+   
         <Routes>
           <Route path="/" element={<Landing />} />
           <Route path="/docs" element={<Docs />} />
@@ -129,10 +129,27 @@ function App() {
           {/* Catch-all for 404 */}
           <Route path="*" element={<NotFound />} />
         </Routes>
+        <DiscordPill />
         <Toaster />
       </Router>
     </AuthProvider>
   );
 }
+
+const DiscordPill = () => (
+  <a
+    href="https://discord.gg/wr7s97cfM7"
+    target="_blank"
+    rel="noreferrer"
+    className="fixed bottom-24 right-6 z-50 flex items-center gap-2.5 bg-black dark:bg-white text-white dark:text-black px-4 py-2.5 rounded-full font-bold text-sm shadow-[0_8px_30px_rgb(0,0,0,0.12)] hover:scale-105 hover:shadow-[0_8px_30px_rgb(0,0,0,0.2)] transition-all duration-300 group"
+  >
+    <div className="bg-white/20 dark:bg-black/10 p-1.5 rounded-full text-white dark:text-black flex items-center justify-center">
+      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 127.14 96.36" fill="currentColor">
+        <path d="M107.7 8.07A105.15 105.15 0 0 0 81.47 0a72.06 72.06 0 0 0-3.36 6.83 97.68 97.68 0 0 0-29.08 0A72.37 72.37 0 0 0 45.67 0a105.14 105.14 0 0 0-26.23 8.07C2.04 33.72-2.38 58.62.9 83.33a105.73 105.73 0 0 0 32.17 16.14A77.7 77.7 0 0 0 40 85.34a69.8 69.8 0 0 1-10.87-5.18c.9-.67 1.8-1.34 2.66-2a75.57 75.57 0 0 0 63.56 0c.88.66 1.77 1.34 2.67 2a69.8 69.8 0 0 1-10.88 5.18 77.34 77.34 0 0 0 6.9 14.13 105.74 105.74 0 0 0 32.2-16.14c3.85-28.53-2.12-52.6-18.54-75.26zM42.3 65.23c-5.86 0-10.66-5.32-10.66-11.83 0-6.5 4.7-11.82 10.66-11.82 5.96 0 10.74 5.3 10.66 11.82 0 6.5-4.7 11.83-10.66 11.83zm42.54 0c-5.86 0-10.66-5.32-10.66-11.83 0-6.5 4.7-11.82 10.66-11.82 5.96 0 10.73 5.3 10.66 11.82 0 6.5-4.72 11.83-10.66 11.83z"/>
+      </svg>
+    </div>
+    <span>Need help? Join Discord</span>
+  </a>
+);
 
 export default App;
