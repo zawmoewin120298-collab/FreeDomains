@@ -1,14 +1,16 @@
 import { useLocation } from "react-router-dom";
 import { useAuth } from "../context/auth-context";
-import { LayoutDashboard } from "lucide-react";
+import { LayoutDashboard, Sun, Moon } from "lucide-react";
+import { useTheme } from "next-themes";
 
 export function Header() {
   const location = useLocation();
   const { user } = useAuth();
+  const { theme, setTheme } = useTheme();
   const isDashboard = location.pathname.startsWith("/dashboard");
 
   return (
-    <header className="fixed top-[var(--incident-height,0px)] left-0 right-0 z-50 bg-white/80 backdrop-blur-md border-b border-slate-200 w-full transition-all">
+    <header className="fixed top-[var(--incident-height,0px)] left-0 right-0 z-50 bg-white/80 dark:bg-[#09090b]/80 backdrop-blur-md border-b border-slate-200 dark:border-[#27272a] w-full transition-all">
       <div className="w-full px-4 sm:px-6 md:px-12 lg:px-16 h-16 flex items-center justify-between">
 
         {/* Left Side: Logo */}
@@ -16,7 +18,7 @@ export function Header() {
           <a href="/" className="flex items-center gap-2 sm:gap-4 group">
             <div className="flex items-center gap-2 sm:gap-3">
               <img src="/stackryze_logo1.png" alt="Stackryze Logo" className="h-8 sm:h-10 md:h-10 w-auto" />
-              <span className="text-sm sm:text-lg md:text-xl font-extrabold text-slate-900 tracking-tight">Stackryze Domains</span>
+              <span className="text-sm sm:text-lg md:text-xl font-extrabold text-slate-900 dark:text-white tracking-tight">Stackryze Domains</span>
             </div>
             <div className="hidden xl:block h-5 w-[1px] bg-slate-300"></div>
             <div className="hidden xl:flex items-baseline gap-0.5">
@@ -75,7 +77,7 @@ export function Header() {
               href="https://github.com/stackryze/FreeDomains"
               target="_blank"
               rel="noopener noreferrer"
-              className="text-[#1A1A1A] hover:text-[#FF6B35] transition-colors duration-150 font-bold text-sm lg:text-sm"
+              className="text-[#1A1A1A] dark:text-slate-200 hover:text-[#FF6B35] dark:hover:text-[#FF6B35] transition-colors duration-150 font-bold text-sm lg:text-sm"
             >
               GitHub
             </a>
@@ -83,6 +85,15 @@ export function Header() {
               ❤️ Donate
             </a>
           </div>
+
+          <button
+            onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
+            className="p-2 rounded-full hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors"
+            title="Toggle theme"
+          >
+            <Sun className="h-5 w-5 hidden dark:block text-slate-200" />
+            <Moon className="h-5 w-5 block dark:hidden text-slate-700" />
+          </button>
 
           {/* CTA Button */}
           {user ? (
