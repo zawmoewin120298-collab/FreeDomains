@@ -32,16 +32,19 @@ Our goal is simple: remove cost and complexity from getting online.
 *More extensions coming soon.*
 
 ---
+## 🏗️ Architecture
+We believe transparency should be demonstrated, not advertised. That's why we're publicly sharing the infrastructure and systems behind Stackryze Domains and Stackryze DNS, and we're fully open to feedback, questions, and scrutiny from the community.
+![Stackryze Architecture](architecture.png)
 
 ## 🌐 DNS Infrastructure
 
 Stackryze Domains Namespaces are backed by globally distributed name servers for reliability and low latency:
 
-- **ns1.stackryze.com** — Primary name server (New York)  
-- **ns2.stackryze.com** — Secondary name server (Hyderabad, India)
+- **ns1.stackryze.com** — Primary DNS server (New York City, USA)
+- **ns2.stackryze.com** — Secondary DNS Server (Nuremberg, Germany)  
+- **ns3.stackryze.com** — Secondary DNS server (Hyderabad, India)
 
 ---
-
 ## ❤️ Sponsors
 
 Supported by organizations that believe in open-source and developer communities.
